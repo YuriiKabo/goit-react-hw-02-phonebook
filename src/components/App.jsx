@@ -1,6 +1,5 @@
 import { Component } from 'react';
 import ContactForm from './ContactForm/ContactForm';
-// import PropTypes from 'prop-types';
 import { nanoid } from 'nanoid';
 import { Filter } from './Filter/Filter';
 import { ContactList } from './ContactList/ContactList';
