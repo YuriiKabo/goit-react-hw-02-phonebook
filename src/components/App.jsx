@@ -1,11 +1,15 @@
 import { Component } from 'react';
-import ContactForm from './ContactForm/ContactForm';
+import { ContactForm } from './ContactForm/ContactForm';
 import { nanoid } from 'nanoid';
 import { Filter } from './Filter/Filter';
 import { ContactList } from './ContactList/ContactList';
 
+import css from './App.module.css';
+
 export class App extends Component {
   state = {
+    name: '',
+    number: '',
     contacts: [
       { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
       { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
@@ -14,7 +18,25 @@ export class App extends Component {
     ],
     filter: '',
   };
+  //
+  //
+  handleInputChange = e => {
+    const { name, value } = e.currentTarget;
+    this.setState({ [name]: value });
+  };
 
+  handleSubmit = e => {
+    e.preventDefault();
+    const onSubmit = this.formSubmitHandler;
+    onSubmit(this.state);
+    this.reset();
+  };
+
+  reset = () => {
+    this.setState({ name: '', number: '' });
+  };
+  //
+  //
   formSubmitHandler = data => {
     data.id = nanoid();
     this.setState(prevState => {
@@ -48,13 +70,18 @@ export class App extends Component {
   };
 
   render() {
-    const { filter } = this.state;
+    const { filter, name, number } = this.state;
     const getVisibleFilter = this.getVisibleContacts();
     return (
-      <div>
-        <h1>Phonebook</h1>
-        <ContactForm onSubmit={this.formSubmitHandler} />
-        <h2>Contacts</h2>
+      <div className={css.container}>
+        <h1 className={css.mainTitle}>Phonebook</h1>
+        <ContactForm
+          handleSubmit={this.handleSubmit}
+          handleInputChange={this.handleInputChange}
+          name={name}
+          number={number}
+        />
+        <h2 className={css.secondTitle}>Contacts</h2>
         <Filter value={filter} onChange={this.changeFilter} />
         <ContactList
           contacts={getVisibleFilter}
