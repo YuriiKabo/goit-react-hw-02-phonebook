@@ -1,23 +1,25 @@
-import PropTypes from 'prop-types';
 import css from './ContactList.module.css';
+import { ContactItem } from '../ContactItem/ContactItem';
+import PropTypes from 'prop-types';
 
-export const ContactList = ({ contacts, deleteHandler }) => (
-  <ul className={css.list}>
-    {contacts.map(({ id, name, number }) => (
-      <li key={id} className={css.item}>
-        <p className={css.name}>{name}: </p>
-        <p className={css.number}>{number}</p>
-        <button
-          className={css.deleteButton}
-          type="button"
-          onClick={() => deleteHandler(id)}
-        >
-          Delete
-        </button>
-      </li>
-    ))}
-  </ul>
-);
+export const ContactList = ({ contacts, deleteItem }) => {
+  return (
+    <ul className={css.list}>
+      {contacts.map(contact => {
+        const { id, name, number } = contact;
+        return (
+          <ContactItem
+            key={id}
+            id={id}
+            name={name}
+            number={number}
+            deleteItem={deleteItem}
+          ></ContactItem>
+        );
+      })}
+    </ul>
+  );
+};
 
 ContactList.propTypes = {
   contacts: PropTypes.arrayOf(
@@ -27,5 +29,5 @@ ContactList.propTypes = {
       number: PropTypes.string.isRequired,
     })
   ),
-  deleteHandler: PropTypes.func.isRequired,
+  deleteItem: PropTypes.func.isRequired,
 };
